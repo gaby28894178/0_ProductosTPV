@@ -1,0 +1,37 @@
+[
+  {
+    "filename": "./imagen muestras/bidon 5litros.png",
+    "title": "5 litros blanco"
+  },
+  {
+    "filename": "./imagen muestras/litro_verde.png",
+    "title": "5 Litros Verde"
+  },
+  {
+    "filename": "./imagen muestras/litros_amarillo.png",
+    "title": "5 litros amarillo"
+  },
+  {
+    "filename": "./imagen muestras/botella litro.png",
+    "title": "1 Litro blanca"
+  },
+  {
+    "filename": "./imagen muestras/sinimagen.png",
+    "title": "Sin Imagen"
+  },
+  {
+    "filename": "5_litros_rojo.png",
+    "title": "Rojo",
+    "description": "Rojo"
+  },
+  {
+    "filename": "8.png",
+    "title": "Pasta Preparacion Azul",
+    "description": "PAsta Preparacion AZUL"
+  },
+  {
+    "filename": "8_1.png",
+    "title": "dimilar ariel",
+    "description": "azul jabon"
+  }
+]

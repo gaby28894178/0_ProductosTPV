@@ -1,0 +1,33 @@
+/*
+  Estilos separados para Productos
+  - Aplica un gris uniforme a toda la fila de la tabla de productos.
+  - Útil para evitar cortes visuales o variaciones por filas impares.
+  - Incluye variantes para modo oscuro activadas por html.theme-dark.
+  Uso: añadir la clase 'uniform-gray' junto con 'tabla-productos' en la tabla.
+*/
+/* Encabezados: fondo gris claro (#f3f3f3) y texto gris oscuro (#333) */
+.tabla-productos.uniform-gray thead th {
+  background-color: #f3f3f3;
+  color: #333;
+}
+/* Celdas del cuerpo: fondo gris claro uniforme (#f3f3f3) */
+.tabla-productos.uniform-gray tbody tr td {
+  background-color: #f3f3f3;
+}
+/* Hover: gris un poco más oscuro (#e9e9e9) al pasar el mouse */
+.tabla-productos.uniform-gray tbody tr:hover td {
+  background-color: #e9e9e9;
+}
+/* Encabezados (oscuro): blanco con opacidad 0.08 sobre fondo (#fff @0.08) */
+html.theme-dark .tabla-productos.uniform-gray thead th {
+  background-color: rgba(255,255,255,0.08);
+  color: #fff;
+}
+/* Celdas del cuerpo (oscuro): fondo blanco con opacidad 0.05 */
+html.theme-dark .tabla-productos.uniform-gray tbody tr td {
+  background-color: rgba(255,255,255,0.05);
+}
+/* Hover (oscuro): fondo blanco con opacidad 0.08 para mayor contraste */
+html.theme-dark .tabla-productos.uniform-gray tbody tr:hover td {
+  background-color: rgba(255,255,255,0.08);
+}

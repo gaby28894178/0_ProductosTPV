@@ -1,0 +1,31 @@
+/*
+  saleModal.css (component-level)
+  - Estilos de overlay y tarjeta del modal de ventas.
+  - z-index 1050 por encima de Bootstrap defaults, fondo con blur ligero.
+  - Footer con separación uniforme entre acciones.
+  Uso:
+    <div class="sale-modal-overlay"><div class="sale-modal-card">...</div></div>
+*/
+/* Overlay: fondo semitransparente marrón/gris (rgba(133,111,111,0.9)) */
+.sale-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(133, 111, 111, 0.9);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+/* Card del modal: no cambia color; aplica sombra pronunciada */
+.sale-modal-card {
+  width: 80%;
+  max-width: 900px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* Footer: no cambia color; define separación uniforme (gap 10px) */
+.sale-modal-footer {
+  gap: 10px;
+}

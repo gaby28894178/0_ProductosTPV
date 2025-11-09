@@ -1,0 +1,199 @@
+/* Variables base para personalización rápida */
+:root {
+  --boleta-page-width: 800px;
+  --boleta-padding: 2rem;
+  --boleta-font-family: Arial, Helvetica, sans-serif;
+  --boleta-font-size: 14px;
+  --boleta-color: #222;
+  --boleta-border-color: #c9c9c9;
+  --boleta-accent-color: #0d6efd;
+  --boleta-table-row-alt: #f8f9fa;
+  --boleta-print-margin: 10mm;
+}
+
+/* Contenedor principal de la boleta/factura */
+.boleta-factura {
+  width: var(--boleta-page-width);
+  margin: 24px auto;
+  background: #fff;
+  color: var(--boleta-color);
+  font-family: var(--boleta-font-family);
+  font-size: var(--boleta-font-size);
+  padding: var(--boleta-padding);
+  border: 1px solid var(--boleta-border-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Header con logo y datos de la empresa */
+.boleta-header {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.boleta-logo {
+  width: 140px;
+  height: 80px;
+  object-fit: contain;
+  border: 1px dashed var(--boleta-border-color);
+  background: #fafafa;
+}
+
+.boleta-header-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+}
+
+.boleta-header-info div { font-weight: 600; }
+
+/* Cabecera */
+.boleta-titulo {
+  font-size: calc(var(--boleta-font-size) * 1.4);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+  color: var(--boleta-accent-color);
+}
+
+.boleta-numero,
+.boleta-cliente {
+  font-weight: 600;
+  margin: 6px 0;
+}
+
+/* Datos del cliente en bloques */
+.boleta-client-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin: 10px 0 6px;
+}
+
+.boleta-client-info .label { color: #777; }
+.boleta-client-info .value { font-weight: 600; }
+
+/* Tabla de items */
+.boleta-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+}
+
+.boleta-items th,
+.boleta-items td {
+  border: 1px solid var(--boleta-border-color);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.boleta-items thead th {
+  background: rgba(13, 110, 253, 0.08);
+  color: var(--boleta-color);
+}
+
+.boleta-items tbody tr:nth-child(odd) {
+  background: var(--boleta-table-row-alt);
+}
+
+.boleta-items .img-col { width: 64px; text-align: center; }
+.boleta-thumb { width: 48px; height: 48px; object-fit: contain; }
+
+/* Totales */
+.boleta-totales-row td {
+  font-weight: 700;
+}
+
+.boleta-total,
+.boleta-iva {
+  text-align: right;
+}
+
+.boleta-total-label,
+.boleta-iva-label {
+  text-align: right;
+}
+
+/* Pie de página */
+.boleta-footer {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 2px solid var(--boleta-border-color);
+  font-size: 12px;
+  color: #555;
+}
+
+.boleta-footer .boleta-footer-notes { margin-bottom: 8px; }
+.boleta-footer .boleta-footer-terms { margin-bottom: 6px; }
+.boleta-footer .boleta-footer-contact { color: #444; }
+
+.boleta-signatures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.boleta-sign-box {
+  height: 60px;
+  border-top: 1px solid var(--boleta-border-color);
+}
+
+/* Impresión */
+@page {
+  size: A4;
+  margin: var(--boleta-print-margin);
+}
+
+@media print {
+  body { background: #fff; }
+  .boleta-factura {
+    width: auto;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+  .boleta-footer { page-break-inside: avoid; }
+}
+
+/* Panel de control de la vista previa (opcional) */
+.boleta-preview-controls {
+  position: sticky;
+  top: 0;
+  background: #f1f3f5;
+  border-bottom: 1px solid var(--boleta-border-color);
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(120px, 1fr));
+  gap: 10px;
+  font-family: var(--boleta-font-family);
+  font-size: 13px;
+}
+
+.boleta-preview-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.boleta-preview-actions {
+  display: flex;
+  gap: 8px;
+  align-items: end;
+}
+
+.boleta-btn {
+  padding: 6px 10px;
+  border: 1px solid var(--boleta-border-color);
+  background: #fff;
+  cursor: pointer;
+}
+
+.boleta-btn.primary {
+  background: var(--boleta-accent-color);
+  color: #fff;
+  border-color: var(--boleta-accent-color);
+}

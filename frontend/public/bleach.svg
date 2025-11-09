@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5bc0de"/>
+      <stop offset="1" stop-color="#2a9fd6"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f0f4ff"/>
+      <stop offset="1" stop-color="#d9e6ff"/>
+    </linearGradient>
+  </defs>
+  <!-- Botella de lavandina estilizada -->
+  <rect x="30" y="28" width="68" height="80" rx="10" ry="10" fill="url(#g1)" stroke="#1c6ea4" stroke-width="3"/>
+  <!-- Cuello de la botella -->
+  <rect x="52" y="12" width="24" height="22" rx="6" ry="6" fill="#e9f3ff" stroke="#7aa7d9" stroke-width="2"/>
+  <!-- Tapa -->
+  <rect x="56" y="6" width="16" height="8" rx="2" ry="2" fill="#1c6ea4"/>
+  <!-- Etiqueta -->
+  <rect x="38" y="54" width="52" height="30" rx="6" ry="6" fill="url(#g2)" stroke="#7aa7d9" stroke-width="2"/>
+  <!-- Símbolo de brillo/limpieza en la etiqueta -->
+  <g fill="#2a9fd6">
+    <circle cx="64" cy="69" r="6" opacity="0.25"/>
+    <path d="M64 60 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3z" opacity="0.75"/>
+  </g>
+  <!-- Asa lateral sugerida -->
+  <path d="M98 42c8 8 8 18 0 26" fill="none" stroke="#1c6ea4" stroke-width="4" stroke-linecap="round"/>
+</svg>

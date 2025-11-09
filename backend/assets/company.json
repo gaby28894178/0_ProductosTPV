@@ -1,0 +1,29 @@
+{
+  "name_main": "Clean",
+  "name_secondary": "Pro",
+  "color_main": "#2196f3",
+  "color_secondary": "#ff9800",
+  "phone": "+54 9 11 2189-7340",
+  "email": "cleanproempresa2025@gmail.com",
+  "address_lines": [
+    "Calle Cataluña 9651",
+    "Buenos Aires"
+  ],
+  "logo_path": "assets/invoice-assets/logo.png",
+  "default_product_image": "assets/invoice-assets/default-product.png",
+  "legal_note": "Este comprobante se emite conforme a la legislación comercial vigente. Conservar la factura para garantías y devoluciones según políticas del comercio.",
+  "bill_to": [
+    "Nombre de la empresa",
+    "Calle Cataluña 9651",
+    "Buenos Aires"
+  ],
+  "ship_to": [
+    "CLEANPRO",
+    "Calle Cataluña 9651",
+    "Buenos Aires"
+  ],
+  "tax_rate": 21,
+  "shipping_amount": 0,
+  "reset_password_salt": "be794494c633e58affea1bcc27463a78",
+  "reset_password_hash": "79ea9bd95491a9e1ed9a3fad1841b7aac13a7dfb8b0d5ad67279cb823fc115639092f68f77516b4e2c28024837de6511a8f78508f017036843d1a71feb11430d"
+}

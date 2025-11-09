@@ -1,0 +1,43 @@
+/*
+  Estilos separados para Ventas
+  - Complementa los estilos del flujo de ventas cuando no se usan CSS Modules.
+  - Mejora los modales aplicando overflow hidden y borde redondeado.
+  - Ajusta los listados del selector con gris uniforme + variantes modo oscuro.
+  Nota:
+    Para z-index alto del overlay del selector, ver Ventas.module.css.
+*/
+/* Modal content: no cambia colores; sólo overflow hidden y borde redondeado */
+.modal-content {
+  overflow: hidden;
+  border-radius: 8px;
+}
+/* Ítems de lista: fondo gris muy claro (#f6f6f6) */
+.list-group-item {
+  background-color: #f6f6f6;
+}
+/* Ítem activo: fondo gris (#e9e9e9) y borde gris (#ddd) */
+.list-group-item.active {
+  background-color: #e9e9e9;
+  border-color: #ddd;
+}
+/* Modo oscuro: fondo blanco con opacidad 0.06 */
+html.theme-dark .list-group-item {
+  background-color: rgba(255,255,255,0.06);
+}
+/* Activo en oscuro: fondo blanco con opacidad 0.10 */
+html.theme-dark .list-group-item.active {
+  background-color: rgba(255,255,255,0.10);
+}
+/* Tbody auxiliar: fondo gris medio (#ddd); z-index 111 */
+.tbody{
+  background-color: #ddd;
+  z-index: 111;
+}
+
+/* Página Ventas: reducir espaciados verticales de títulos, párrafos y bloques */
+.page-ventas h2.mb-3 { margin-bottom: 0.5rem !important; }
+.page-ventas p { margin-bottom: 0.4rem; }
+.page-ventas .input-group { margin-bottom: 0.25rem !important; }
+.page-ventas .card .card-header { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.page-ventas .card .card-body { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.page-ventas .card .card-footer { padding-top: 0.5rem; padding-bottom: 0.5rem; }

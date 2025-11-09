@@ -1,0 +1,63 @@
+/*
+  Módulo CSS para Navbar
+  - Hace el fondo opaco con gradiente y color sólido de respaldo.
+  - Asegura z-index alto para que no se superponga contenido al scrollear.
+  - Ajusta color de texto de la marca (Clean/Pro) y tamaño del icono.
+  Uso:
+    import styles from '../styles/modules/Nav/Nav.module.css'
+    <nav className={styles.navBar + ' navbar navbar-expand-lg navbar-light bg-gradient shadow-sm fixed-top w-100'}>
+      <span className={styles.brandClean}>Clean</span><span className={styles.brandPro}>Pro</span>
+    </nav>
+*/
+
+.navBar {
+  background-image: var(--nav-gradient) !important;
+  z-index: 1050; /* por encima del contenido */
+}
+
+.brandClean {
+  color: var(--brand-clean);
+  font-weight: 700;
+}
+
+.brandPro {
+  color: var(--brand-pro);
+  font-weight: 700;
+}
+
+.navIcon {
+  font-size: 18px;
+  vertical-align: text-bottom;
+  margin-right: 6px;
+  line-height: 1;
+}
+
+/* Hover sutil del icono en enlaces de navbar */
+.navLink:hover .navIcon { transform: translateY(-1px); transition: transform 120ms ease; }
+
+/* Modo oscuro: reutiliza el gradiente definido en variables */
+:global(html.theme-dark) .navBar {
+  background-image: var(--nav-gradient) !important;
+}
+
+/* Tema claro: respaldo sólido rosa suave si el gradiente no aplica */
+:global(html):not(.theme-dark) .navBar {
+  background-color: #000000 !important; /* respaldo sólido negro en tema claro */
+}
+
+/* Tema claro: el ítem activo del navbar en amarillo para destacarlo */
+:global(html):not(.theme-dark) .navBar :global(.nav-link.active) {
+  color: #ffd700 !important; /* amarillo */
+}
+/* Asegurar que el icono también tome el color del activo */
+:global(html):not(.theme-dark) .navBar :global(.nav-link.active) .navIcon {
+  color: #ffd700 !important;
+}
+
+/* Tema claro: hover en rojo para elementos no activos */
+:global(html):not(.theme-dark) .navBar :global(.nav-link:not(.active):hover) {
+  color: #ff6b6b !important; /* rojo más claro */
+}
+:global(html):not(.theme-dark) .navBar :global(.nav-link:not(.active):hover) .navIcon {
+  color: #ff6b6b !important;
+}

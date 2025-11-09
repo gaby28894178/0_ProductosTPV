@@ -1,0 +1,386 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  /* Paleta de tema (claro por defecto) */
+  --bg: #ffffff;
+  --text: #213547;
+  --card-bg: #ffffff;
+  --border: #dee2e6;
+  --primary: #0d6efd;
+  /* Marca CleanPro: Clean negro, Pro amarillo en tema claro */
+  /* Clean en gris claro (solicitud del usuario) */
+  --brand-clean: #d3d3d3; /* gris clarito */
+  --brand-pro: #ffd700; /* amarillo */
+  /* Navbar claro en negro/gris oscuro (solicitud del usuario): */
+  --nav-gradient: linear-gradient(90deg, #000000, #b0b9e2);
+  /* Texto del navbar en blanco para contraste sobre fondo oscuro */
+  --nav-text: #ffffff;
+  --navbar-height: 64px;
+
+  color: var(--text);
+  background-color: var(--bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  padding-top: var(--navbar-height);
+}
+#root { width: 100%; }
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #a39c9c;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--text);
+    background-color: var(--bg);
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Tema oscuro aplicado cuando html tiene la clase .theme-dark */
+html.theme-dark body {
+  --bg: #121212;
+  --text: #ffffff;
+  --card-bg: #7a7979;
+  --border: #2a2a2a;
+  --primary: #64a7e6;
+  /* Marca CleanPro: Clean blanco, Pro naranja en tema oscuro */
+  --brand-clean: #ffffff;
+  --brand-pro: #ff8c00; /* naranja */
+  /* Navbar más clara en oscuro para mejor contraste */
+  --nav-gradient: linear-gradient(90deg, #252121, #488b86);
+  --nav-text: #ffffff;
+  --navbar-height: 64px;
+  background-color: var(--bg);
+  color: #ffffff;
+}
+/* Navbar (oscuro): el color y el fondo ahora los provee Nav.module.css.
+   Este selector no modifica colores para evitar duplicaciones. */
+html.theme-dark .navbar { /* sin cambios de color ni fondo aquí */ }
+html.theme-dark .card {
+  background-color: var(--card-bg);
+  color: var(--text);
+  border-color: var(--border) !important;
+}
+html.theme-dark .list-group-item {
+  background-color: var(--card-bg);
+  color: #ffffff; /* texto forzado a blanco en modo oscuro (modal listas) */
+  border-color: var(--border) !important;
+}
+/* Hover legible en oscuro */
+html.theme-dark .list-group-item:hover {
+  background-color: #0395f7;
+}
+/* Estado activo claramente visible en modo oscuro (selector F10) */
+html.theme-dark .list-group-item.active {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+html.theme-dark .list-group-item.active small,
+html.theme-dark .list-group-item.active .text-muted {
+  color: rgba(255,255,255,0.9) !important;
+}
+html.theme-dark .list-group-item.active .badge {
+  background-color: #95b0d6 !important; /* contraste sobre fondo activo */
+  color: #ffffff !important;
+}
+/* Texto secundario dentro de ítems de lista en modo oscuro (no solo activos) */
+html.theme-dark .list-group-item small,
+html.theme-dark .list-group-item .text-muted {
+  color: #ffffff !important;
+}
+html.theme-dark .table {
+  color: var(--text);
+}
+html.theme-dark .table thead {
+  background-color: #88ff00;
+}
+/* Forzar encabezados y texto principal a blanco en oscuro */
+html.theme-dark h1,
+html.theme-dark h2,
+html.theme-dark h3,
+html.theme-dark h4,
+html.theme-dark h5,
+html.theme-dark h6,
+html.theme-dark p,
+html.theme-dark .container { color: #ffffff; }
+html.theme-dark .form-control,
+html.theme-dark .form-select,
+html.theme-dark .btn-outline-secondary,
+html.theme-dark .btn-outline-primary {
+  background-color: #1a1a1a;
+  color: var(--text);
+  border-color: var(--border);
+}
+html.theme-dark .dropdown-menu {
+  background-color: var(--card-bg);
+  color: var(--text);
+}
+
+/* Forzar el texto secundario a blanco en tema oscuro para mejor legibilidad */
+html.theme-dark .text-secondary { color: #ffffff !important; }
+
+/* Dashboard: texto sin fondo en blanco en oscuro, sin afectar badges ni textos con color */
+html.theme-dark .page-dashboard .card :where(p, small, span, div, th, td, h5, h6):not(.badge):not(.text-primary):not(.text-danger):not(.text-warning):not(.text-success):not(.text-info) {
+  color: #ffffff;
+}
+/* Encabezados de card en el Dashboard */
+html.theme-dark .page-dashboard .card-header { color: #ffffff; }
+
+/* Dashboard (oscuro): Los textos con color reciben fondo gris y fuente un poco mayor */
+html.theme-dark .page-dashboard .card .text-primary,
+html.theme-dark .page-dashboard .card .text-danger,
+html.theme-dark .page-dashboard .card .text-success,
+html.theme-dark .page-dashboard .card .text-warning,
+html.theme-dark .page-dashboard .card .text-info {
+  background-color: rgba(255,255,255,0.12);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 1rem !important;
+}
+/* Etiquetas pequeñas coloreadas (p. ej. Día/Semana/Mes) */
+html.theme-dark .page-dashboard .card small.text-primary,
+html.theme-dark .page-dashboard .card small.text-danger,
+html.theme-dark .page-dashboard .card small.text-success,
+html.theme-dark .page-dashboard .card small.text-warning,
+html.theme-dark .page-dashboard .card small.text-info {
+  background-color: rgba(255,255,255,0.12);
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 0.95rem !important;
+}
+
+/* Grilla de productos con color */
+.tabla-productos thead th {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+.tabla-productos tbody tr:nth-child(odd) {
+  background-color: rgba(13, 110, 253, 0.06); /* azul muy suave */
+}
+.tabla-productos tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.12);
+}
+/* Ajustes para tema oscuro */
+html.theme-dark .tabla-productos thead th {
+  background-color: #3981e6; /* azul/gris para contraste en oscuro */
+  color: #ffffff;
+}
+html.theme-dark .tabla-productos tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+html.theme-dark .tabla-productos tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Navbar: el fondo opaco y colores se gestionan en Nav.module.css.
+   Aquí sólo se establecen dimensiones y orden de apilamiento. */
+.navbar {
+  color: var(--nav-text);
+  width: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1050; /* por encima del contenido */
+}
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: var(--nav-text) !important;
+}
+
+/* Botón 'Usar selección' en Ventas: amarillo con texto negro */
+.btn-select-ventas {
+  background-color: #ffd700; /* amarillo solicitado */
+  color: #000000; /* texto negro solicitado */
+  border-color: #d1b800;
+}
+.btn-select-ventas:hover,
+.btn-select-ventas:focus {
+  background-color: #e6c200; /* tono más oscuro al hover */
+  color: #000000;
+  border-color: #bfa300;
+}
+
+/* Botón 'Cancelar' en Ventas: rojo con texto blanco */
+.btn-cancel-ventas {
+  background-color: #dc3545; /* rojo solicitado */
+  color: #ffffff; /* texto blanco solicitado */
+  border-color: #b02a37;
+}
+.btn-cancel-ventas:hover,
+.btn-cancel-ventas:focus {
+  background-color: #c82333; /* tono más oscuro al hover */
+  color: #ffffff;
+  border-color: #9a2530;
+}
+
+/* Botones superiores en Ventas (lado a lado): azul y verde con texto blanco */
+.btn-blue-ventas {
+  background-color: #0d6efd; /* azul solicitado */
+  color: #ffffff; /* texto blanco */
+  border-color: #0b5ed7;
+}
+.btn-blue-ventas:hover,
+.btn-blue-ventas:focus {
+  background-color: #0b5ed7; /* azul más oscuro al hover */
+  color: #ffffff;
+  border-color: #0a58ca;
+}
+
+.btn-green-ventas {
+  background-color: #198754; /* verde solicitado */
+  color: #ffffff; /* texto blanco */
+  border-color: #157347;
+}
+.btn-green-ventas:hover,
+.btn-green-ventas:focus {
+  background-color: #157347; /* verde más oscuro al hover */
+  color: #ffffff;
+  border-color: #146c43;
+}
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+  color: var(--primary) !important;
+}
+.navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.navbar .navbar-toggler-icon {
+  filter: invert(1) brightness(1.2);
+}
+
+/* Ajuste de altura del navbar en móviles */
+@media (max-width: 991.98px) {
+  :root { --navbar-height: 56px; }
+  html.theme-dark body { --navbar-height: 56px; }
+}
+
+/* Switch de tema estilo iOS */
+.theme-switch { position: relative; display: inline-block; width: 64px; height: 32px; }
+.theme-switch input { display: none; }
+.theme-switch .slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--switch-track-bg, #e9ecef); border-radius: 16px; transition: background 0.2s ease;
+}
+.theme-switch .slider::before {
+  content: ""; position: absolute; height: 26px; width: 26px; left: 3px; top: 3px;
+  background: #fff; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease;
+}
+.theme-switch .icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 16px; }
+.theme-switch .icon.left { left: 8px; opacity: 0.85; }
+.theme-switch .icon.right { right: 8px; opacity: 0.85; }
+.theme-switch input:checked + .slider { background: var(--switch-track-bg-dark, #334155); }
+.theme-switch input:checked + .slider::before { transform: translateX(32px); }
+
+/* Iconos del navbar: tamaño, alineación y espaciado uniforme */
+.navbar .nav-link .nav-icon {
+  font-size: 18px;
+  vertical-align: text-bottom;
+  margin-right: 6px;
+  line-height: 1;
+  transition: transform 120ms ease;
+}
+.navbar .nav-link.icon-only .nav-icon { margin-right: 0 }
+.navbar .nav-link:hover .nav-icon { transform: translateY(-1px) }
+
+/* Botón circular para la tuerquita del Dashboard */
+.gear-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease, transform 120ms ease;
+}
+.gear-btn:hover { color: var(--primary); border-color: var(--primary); transform: translateY(-1px); }
+.gear-btn:focus { outline: 3px solid rgba(13,110,253,0.4); outline-offset: 2px; }
+
+/* Afinar contraste en tema oscuro */
+html.theme-dark .gear-btn { border-color: rgba(255,255,255,0.25); }
+html.theme-dark .gear-btn:hover { border-color: var(--primary); }
+/*
+  index.css (estilos globales)
+  - Define paletas de color, tipografías y resets comunes.
+  - Agrupa variaciones para modo oscuro bajo html.theme-dark.
+  - Contiene estilos puntuales para componentes (navbar, tablas, botones de Ventas).
+  Sugerencia de uso:
+    - Para aislar estilos por componente, preferir CSS Modules.
+    - Mantener aquí sólo reglas transversales o utilitarias.
+*/
+/* Hover amarillo con texto e ícono blancos para el botón Editar */
+.btn-outline-warning.edit-btn:hover {
+  background-color: #ffc107 !important; /* amarillo Bootstrap */
+  border-color: #ffc107 !important;
+  color: #fff !important; /* texto e ícono en blanco */
+}
+/* Descripción de las tarjetas en el selector de imágenes */
+.desc-badge {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: #fff; /* texto blanco */
+  font-size: 14px; /* más grande */
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 6px 8px;
+  border-radius: 6px;
+  /* fondo gris en gradiente */
+  background: linear-gradient(90deg, #9aa0a6 0%, #6c757d 50%, #343a40 100%);
+  /* truncado para textos largos */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

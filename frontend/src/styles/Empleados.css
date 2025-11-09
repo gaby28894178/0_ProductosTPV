@@ -1,0 +1,34 @@
+/*
+  Estilos separados para Empleados
+  - Estilos específicos de tablas para la sección de empleados.
+  - Usa un gris ligeramente distinto (#f7f7f7) y hover #ececec.
+  - Provee variantes en modo oscuro con opacidades 0.10/0.06/0.10.
+  Uso:
+    <table class="table tabla-productos uniform-gray"> ... </table>
+*/
+/* Encabezados: fondo gris claro (#f3f3f3) y texto gris oscuro (#333) */
+.tabla-productos.uniform-gray thead th {
+  background-color: #f3f3f3;
+  color: #333;
+}
+/* Celdas del cuerpo: gris ligeramente más claro (#f7f7f7) */
+.tabla-productos.uniform-gray tbody tr td {
+  background-color: #f7f7f7;
+}
+/* Hover: gris intermedio (#ececec) para resaltar filas */
+.tabla-productos.uniform-gray tbody tr:hover td {
+  background-color: #ececec;
+}
+/* Encabezados (oscuro): blanco con opacidad 0.10 (#fff @0.10) y texto blanco */
+html.theme-dark .tabla-productos.uniform-gray thead th {
+  background-color: rgba(255,255,255,0.10);
+  color: #fff;
+}
+/* Celdas del cuerpo (oscuro): blanco con opacidad 0.06 */
+html.theme-dark .tabla-productos.uniform-gray tbody tr td {
+  background-color: rgba(255,255,255,0.06);
+}
+/* Hover (oscuro): blanco con opacidad 0.10 para contraste */
+html.theme-dark .tabla-productos.uniform-gray tbody tr:hover td {
+  background-color: rgba(255,255,255,0.10);
+}

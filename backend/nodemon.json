@@ -1,0 +1,13 @@
+{
+  "watch": ["src"],
+  "ext": "js,json",
+  "ignore": [
+    "assets/**",
+    "facturas/**",
+    "tmp/**",
+    "data.sqlite",
+    "backp/**",
+    "scripts/**",
+    ".env"
+  ]
+}

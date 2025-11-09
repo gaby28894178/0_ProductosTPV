@@ -1,0 +1,42 @@
+/*
+  Estilos de la boleta de factura (PDFKit)
+  - Puede ajustar tamaños, posiciones y márgenes sin tocar el código.
+  - El motor lee custom properties (variables) y algunos font-size de clases.
+
+  Variables disponibles (usar números, en puntos px del PDF):
+  --row-height: alto de cada fila de ítems.
+  --row-gap: separación vertical entre filas.
+  --desc-width: ancho del bloque de texto de la descripción/título.
+  --qty-column-x: eje X de la columna de cantidad (encabezado y valores).
+  --amt-column-x: eje X de la columna de monto.
+  --amt-column-w: ancho del bloque de monto.
+
+  Clases reconocidas (se toma font-size):
+  .item-title { font-size: <n>; }
+  .item-desc { font-size: <n>; }
+  .item-qty { font-size: <n>; }
+  .item-amount { font-size: <n>; }
+
+  Sugerencia: Cambie valores y regenere el PDF para ver el efecto.
+*/
+
+/* Variables */
+:root {
+  --row-height: 30;
+  --row-gap: 2;
+  --desc-width: 300;
+  --desc-column-x: 44; /* al borde exacto de la miniatura */
+  --thumb-size: 10;   /* achico la miniatura para ganar más margen */
+  --thumb-x: 34;      /* muevo la miniatura 4 px más a la izquierda */
+  --thumb-gap: 3;     /* pequeño margen para que el texto no toque la imagen */
+  --qty-column-x: 376; /* CANT. 4 px más a la izquierda (380→376) */
+  --amt-column-x: 485; /* MONTO (header) */
+  --amt-body-x: 482;   /* valores de MONTO 3 px más a la izquierda que el header */
+  --amt-column-w: 80;  /* ancho se mantiene */
+}
+
+/* Tipografías */
+.item-title { font-size: 13; }
+.item-desc { font-size: 8; }
+.item-qty { font-size: 11; } /* cantidad un poco más grande */
+.item-amount { font-size: 10; } /* monto más chico para evitar desborde */

@@ -1,0 +1,34 @@
+/*
+  Estilos separados para Mayorista
+  - Unifica el fondo de las filas y encabezados para una grilla estable.
+  - Evita el “corte” visual cuando se usan filas alternadas o hover.
+  - Incluye variantes de modo oscuro controladas por html.theme-dark.
+  Uso:
+    <table class="table tabla-productos uniform-gray"> ... </table>
+*/
+/* Encabezados: fondo gris claro (#f3f3f3) y texto gris oscuro (#333) */
+.tabla-productos.uniform-gray thead th {
+  background-color: #f3f3f3;
+  color: #333;
+}
+/* Celdas del cuerpo: fondo gris claro uniforme (#f3f3f3) */
+.tabla-productos.uniform-gray tbody tr td {
+  background-color: #f3f3f3;
+}
+/* Hover: gris un poco más oscuro (#e9e9e9) al pasar el mouse */
+.tabla-productos.uniform-gray tbody tr:hover td {
+  background-color: #e9e9e9;
+}
+/* Encabezados (oscuro): blanco con opacidad 0.08 (#fff @0.08) y texto blanco */
+html.theme-dark .tabla-productos.uniform-gray thead th {
+  background-color: rgba(255,255,255,0.08);
+  color: #fff;
+}
+/* Celdas del cuerpo (oscuro): fondo blanco con opacidad 0.05 */
+html.theme-dark .tabla-productos.uniform-gray tbody tr td {
+  background-color: rgba(255,255,255,0.05);
+}
+/* Hover (oscuro): fondo blanco con opacidad 0.08 */
+html.theme-dark .tabla-productos.uniform-gray tbody tr:hover td {
+  background-color: rgba(255,255,255,0.08);
+}

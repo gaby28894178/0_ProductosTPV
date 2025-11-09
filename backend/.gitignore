@@ -1,0 +1,9 @@
+node_modules/
+.env
+data.sqlite
+tmp/
+backp/
+facturas/
+.DS_Store
+Thumbs.db
+assets/product-images/thumbnails/

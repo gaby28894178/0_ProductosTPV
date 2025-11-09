@@ -1,0 +1,337 @@
+/* Facturas.css */
+.facturas-container {
+  padding: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.facturas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #eaeaea;
+}
+
+.facturas-header h2 {
+  color: #2c3e50;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.badge-count {
+  background: #3498db;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-refresh {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn-refresh:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* Estados de carga y error */
+.facturas-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.facturas-error {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f8d7da;
+  border-radius: 12px;
+  margin: 20px;
+}
+
+.error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.facturas-error h3 {
+  color: #721c24;
+  margin-bottom: 8px;
+}
+
+.facturas-error p {
+  color: #856404;
+  margin-bottom: 20px;
+}
+
+.btn-retry {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-retry:hover {
+  background: #c82333;
+}
+
+/* Estado vacío */
+.facturas-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.facturas-empty h3 {
+  color: #6c757d;
+  margin-bottom: 12px;
+}
+
+.facturas-empty p {
+  color: #868e96;
+  margin-bottom: 0;
+}
+
+/* Grid de facturas */
+.facturas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
+}
+
+.factura-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eaeaea;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.factura-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.factura-header {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.factura-title h3 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.factura-badge {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.factura-actions {
+  flex-shrink: 0;
+}
+
+.btn-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-open:hover {
+  background: #2980b9;
+}
+
+.btn-icon {
+  font-size: 14px;
+}
+
+/* Detalles de la factura */
+.factura-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.detail-group label {
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+.detail-value {
+  color: #2c3e50;
+  font-size: 14px;
+  text-align: right;
+  word-break: break-word;
+  flex: 1;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-badge.inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Footer de la factura */
+.factura-footer {
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #eaeaea;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.file-icon {
+  font-size: 16px;
+}
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #28a745;
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-download:hover {
+  background: #218838;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .facturas-container {
+    padding: 16px;
+  }
+  
+  .facturas-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .facturas-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .factura-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .factura-actions {
+    align-self: flex-end;
+  }
+  
+  .detail-group {
+    flex-direction: column;
+    gap: 0.2px;
+  }
+  
+  .detail-group label {
+    min-width: auto;
+  }
+  
+  .detail-value {
+    text-align: left;
+  }
+}
