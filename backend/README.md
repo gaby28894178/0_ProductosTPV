@@ -71,4 +71,5 @@ Ejemplo `POST /api/sales`:
 ## Desarrollo y ejecución
 
 - Variables de entorno: `.env` (puerto y base de datos)
-- Desarrollo: `npm run dev` (nodemon) → API escucha en `http://localhost:55000` por defecto
+- Puerto por defecto: `PORT=3001` (se puede sobrescribir en `.env`)
+- Desarrollo: `npm run dev` (nodemon) → API escucha en `http://localhost:3001`

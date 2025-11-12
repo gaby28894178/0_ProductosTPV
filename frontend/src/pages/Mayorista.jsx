@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react'
+import { capitalizeWords } from '../utils/text'
+import { parseEsNumber, formatEsMoneyLive } from '../utils/money'
+import useValidadorPrecios, { calcularValorNumerico } from '../utils/useValidadorPrecios'
 import api from '../api'
 import '../styles/Mayorista.css'
 import stylesMayorista from '../styles/modules/Mayorista/Mayorista.module.css'
@@ -32,6 +35,7 @@ export default function Mayorista(){
   const [search, setSearch] = useState('')
   const [sortField, setSortField] = useState('id') // 'id' | 'fecha'
   const [sortDir, setSortDir] = useState('desc') // 'asc' | 'desc'
+  const precioVal = useValidadorPrecios('', { decimales: 2 })
 
   const unidad = categoria === 'pastas' ? 'kilo' : 'litro'
   const nombre = `${nombreBase} - ${empaqueLabel(empaque)} ${capacidad}${unidad === 'kilo' ? 'Kg' : 'L'}`
@@ -44,11 +48,6 @@ export default function Mayorista(){
   }
 
   const fmtNumber = (n)=> new Intl.NumberFormat('es-ES', { minimumFractionDigits:2, maximumFractionDigits:2 }).format(Number(n||0))
-  const parseEsNumber = (s)=>{
-    const raw = String(s||'').trim().replace(/\./g, '').replace(',', '.')
-    const n = parseFloat(raw)
-    return Number.isFinite(n) ? n : 0
-  }
 
   // Helper con reintentos para evitar fallas transitorias cuando el backend reinicia
   const getWithRetry = async (url, opts = {}, { retries = 3, delayMs = 400 } = {}) => {
@@ -255,12 +254,37 @@ export default function Mayorista(){
             </div>
             <div className="col-md-6">
               <label className="form-label">Producto nombre interno materia prima</label>
-              <input className={`form-control ${errors.nombre?'is-invalid':''}`} value={nombreBase} onChange={e=> setNombreBase(e.target.value)} required />
+              <input
+                className={`form-control ${errors.nombre?'is-invalid':''}`}
+                value={nombreBase}
+                onChange={e=> setNombreBase(capitalizeWords(e.target.value))}
+                onFocus={e=>{
+                  const v = String(nombreBase||'')
+                  if (!v || v === 'Producto mayorista') {
+                    setNombreBase('')
+                  } else {
+                    requestAnimationFrame(()=> e.target.select())
+                  }
+                }}
+                required
+              />
               {errors.nombre && <div className="invalid-feedback">Campo requerido</div>}
             </div>
             <div className="col-md-6">
               <label className="form-label">Marca (por defecto CLEANPRO)</label>
-              <input className="form-control" value={marca} onChange={e=> setMarca(e.target.value)} />
+              <input
+                className="form-control"
+                value={marca}
+                onChange={e=> setMarca(e.target.value)}
+                onFocus={e=>{
+                  const v = String(marca||'')
+                  if (v === 'CLEANPRO') {
+                    setMarca('')
+                  } else {
+                    requestAnimationFrame(()=> e.target.select())
+                  }
+                }}
+              />
               <small className="text-muted">Si es marca comprada, reemplazá este valor.</small>
             </div>
             <div className="col-md-12">
@@ -304,18 +328,23 @@ export default function Mayorista(){
                 inputMode="decimal"
                 className={`form-control ${errors.precioMayorista?'is-invalid':''}`}
                 placeholder="0,00"
-                value={uiMayorista}
-                onChange={e=> setUiMayorista(String(e.target.value||''))}
+                value={precioVal.valor}
+                onChange={e=>{
+                  const nuevo = precioVal.setValor(e.target.value)
+                  const num = calcularValorNumerico(nuevo)
+                  setPrecioMayorista(num)
+                }}
                 onFocus={e=>{
-                  const v = String(uiMayorista||'')
+                  const v = String(precioVal.valor||'')
                   if (!v || v === '0' || v === '0,00') {
-                    setUiMayorista('')
+                    precioVal.setValor('')
                   } else {
                     requestAnimationFrame(()=> e.target.select())
                   }
                 }}
                 onBlur={e=>{
-                  const n = parseEsNumber(e.target.value)
+                  precioVal.formatearFinal()
+                  const n = precioVal.valorNumerico
                   setPrecioMayorista(n)
                   setUiMayorista(fmtNumber(n))
                 }}

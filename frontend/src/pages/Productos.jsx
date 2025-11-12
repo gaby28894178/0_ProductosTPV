@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
+import { capitalizeWords } from '../utils/text'
+import { parseEsNumber, formatEsMoneyLive, formatEs } from '../utils/money'
+import useValidadorPrecios, { calcularValorNumerico } from '../utils/useValidadorPrecios'
 import api from '../api'
 import stylesProductos from '../styles/modules/Productos/Productos.module.css'
 import { swalError, swalSuccess, swalConfirm, swalPromptText, swalPromptNumber } from '../components/swal'
 import ProductCapacityModal from '../components/ProductCapacityModal'
+import ImagePickerModal from '../components/ImagePickerModal'
+import { resolveAssetUrl } from '../utils/assets'
 
 export default function Productos(){
   const [items, setItems] = useState([])
@@ -17,11 +22,16 @@ export default function Productos(){
   const [sortField, setSortField] = useState('id') // 'id' | 'fecha'
   const [sortDir, setSortDir] = useState('desc') // 'asc' | 'desc'
   const [capacityProduct, setCapacityProduct] = useState(null)
+  // Editor de imagen del producto
+  const [imageEditProduct, setImageEditProduct] = useState(null)
   // Selector de productos mayoristas (materias primas) para producir
   const [mayoristas, setMayoristas] = useState([])
   const [selectorAbierto, setSelectorAbierto] = useState(false)
   const [selectorBuscar, setSelectorBuscar] = useState('')
   const [mayoristaSel, setMayoristaSel] = useState(null)
+  // Validadores para precios
+  const pmayorVal = useValidadorPrecios('', { decimales: 2 })
+  const ppublicoVal = useValidadorPrecios('', { decimales: 2 })
   // Resumen rápido de capacidad potencial según mayorista y rendimiento elegido
   const stockEmpaquesSel = Math.trunc(Number(mayoristaSel?.stock||0))
   const rendimientoSelInt = Math.trunc(Number(mayoristaSel?.rendimientoLitrosPorEmpaque||100))
@@ -41,11 +51,6 @@ export default function Productos(){
   useEffect(()=>{ load(); loadMayoristas() },[])
 
   const fmtNumber = (n)=> new Intl.NumberFormat('es-ES', { minimumFractionDigits:2, maximumFractionDigits:2 }).format(Number(n||0))
-  const parseEsNumber = (s)=>{
-    const raw = String(s||'').trim().replace(/\./g, '').replace(',', '.')
-    const n = parseFloat(raw)
-    return Number.isFinite(n) ? n : 0
-  }
 
   const onSubmit = async e=>{
     e.preventDefault()
@@ -120,7 +125,7 @@ export default function Productos(){
         <div className="card-body">
       <form onSubmit={onSubmit} style={{ display:'grid', gap:12, gridTemplateColumns:'repeat(2, minmax(250px, 1fr))', maxWidth:900 }}>
         <label htmlFor="nombreBoleta">Nombre del producto (se usará en la boleta)
-          <input className="form-control" id="nombreBoleta" value={form.nombreBoleta} onChange={e=>setForm({...form,nombreBoleta:e.target.value})} placeholder="Ej: jabón líquido azul" required />
+          <input className="form-control" id="nombreBoleta" value={form.nombreBoleta} onChange={e=>setForm({...form,nombreBoleta:capitalizeWords(e.target.value)})} placeholder="Ej: jabón líquido azul" required />
         </label>
         <label htmlFor="marca">Marca
           <input className="form-control" id="marca" value={form.marca} onChange={e=>setForm({...form,marca:e.target.value})} />
@@ -206,23 +211,16 @@ export default function Productos(){
             type="text"
             inputMode="decimal"
             placeholder="0,00"
-            value={ui.pmayor}
+            value={pmayorVal.valor}
             onChange={e=>{
-              const v = String(e.target.value||'')
-              setUi(prev=> ({...prev, pmayor: v}))
-            }}
-            onFocus={e=>{
-              const v = String(ui.pmayor||'')
-              if (!v || v === '0' || v === '0,00') {
-                setUi(prev=> ({...prev, pmayor: ''}))
-              } else {
-                requestAnimationFrame(()=> e.target.select())
-              }
+              const nuevo = pmayorVal.setValor(e.target.value)
+              const num = calcularValorNumerico(nuevo)
+              setForm(prev=> ({...prev, precioMayorista: num}))
             }}
             onBlur={e=>{
-              const n = parseEsNumber(e.target.value)
-              setUi(prev=> ({...prev, pmayor: fmtNumber(n)}))
-              setForm(prev=> ({...prev, precioMayorista: n}))
+              pmayorVal.formatearFinal()
+              const n = pmayorVal.valorNumerico
+              setForm(prev=> ({ ...prev, precioMayorista: n }))
             }}
           />
         </label>
@@ -234,23 +232,16 @@ export default function Productos(){
             type="text"
             inputMode="decimal"
             placeholder="0,00"
-            value={ui.ppublico}
+            value={ppublicoVal.valor}
             onChange={e=>{
-              const v = String(e.target.value||'')
-              setUi(prev=> ({...prev, ppublico: v}))
-            }}
-            onFocus={e=>{
-              const v = String(ui.ppublico||'')
-              if (!v || v === '0' || v === '0,00') {
-                setUi(prev=> ({...prev, ppublico: ''}))
-              } else {
-                requestAnimationFrame(()=> e.target.select())
-              }
+              const nuevo = ppublicoVal.setValor(e.target.value)
+              const num = calcularValorNumerico(nuevo)
+              setForm(prev=> ({...prev, precioPublico: num}))
             }}
             onBlur={e=>{
-              const n = parseEsNumber(e.target.value)
-              setUi(prev=> ({...prev, ppublico: fmtNumber(n)}))
-              setForm(prev=> ({...prev, precioPublico: n}))
+              ppublicoVal.formatearFinal()
+              const n = ppublicoVal.valorNumerico
+              setForm(prev=> ({ ...prev, precioPublico: n }))
             }}
           />
         </label>
@@ -265,7 +256,7 @@ export default function Productos(){
 
       <div className="d-flex justify-content-between align-items-center" style={{ marginTop:8, gap:12 }}>
         <input className="form-control" style={{ maxWidth: 320 }} placeholder="Buscar por nombre, marca o ID" value={search} onChange={e=> setSearch(e.target.value)} />
-        <div className="d-flex" style={{ gap:8 }}>
+        <div className="d-flex align-items-center" style={{ gap:8 }}>
           <select className="form-select" style={{ maxWidth: 160 }} value={sortField} onChange={e=> setSortField(e.target.value)}>
             <option value="id">Ordenar por ID</option>
             <option value="fecha">Ordenar por fecha</option>
@@ -285,10 +276,11 @@ export default function Productos(){
           {viewItems.map(p=> (
             <tr key={p.id}>
               <td>{p.id}</td><td>{p.nombreBoleta || p.nombre}</td><td>{p.unidad}</td><td>{p.marca}</td><td>{Math.trunc(Number(p.stock||0))}</td><td>${fmtNumber(p.precioMayorista)}</td><td>${fmtNumber(p.precioPublico)}</td>
-              <td>{p.imagenUrl ? <img alt="img" src={p.imagenUrl} style={{ height:32 }} /> : '-'}</td>
+              <td>{p.imagenUrl ? <img alt="img" src={resolveAssetUrl(p.imagenUrl)} style={{ height:32 }} /> : '-'}</td>
               <td>{fmtDate(p.createdAt)}</td>
               <td className="text-end" style={{whiteSpace:'nowrap'}}>
                 <button className="btn btn-sm btn-outline-success me-2" title="Capacidad y litros" onClick={()=> setCapacityProduct(p)}>Litros</button>
+                <button className="btn btn-sm btn-outline-secondary me-2" onClick={()=> setImageEditProduct(p)}>Imagen</button>
                 <button className="btn btn-sm btn-outline-primary me-2" onClick={async ()=>{
                   try {
                     const nombreBoleta = await swalPromptText({ title: 'Nombre (boleta)', defaultValue: p.nombreBoleta || p.nombre || '' })
@@ -338,6 +330,24 @@ export default function Productos(){
       </table>
       {capacityProduct && (
         <ProductCapacityModal product={capacityProduct} onClose={()=> setCapacityProduct(null)} />
+      )}
+
+      {/* Modal para seleccionar imagen del producto */}
+      {imageEditProduct && (
+        <ImagePickerModal
+          visible={!!imageEditProduct}
+          onClose={()=> setImageEditProduct(null)}
+          onSelect={async (it)=>{
+            try{
+              // Almacenar ruta relativa para portabilidad
+              const rel = String(new URL(it.url).pathname || '').replace(/^\//,'') // assets/product-images/...
+              await api.put(`/products/${imageEditProduct.id}`, { imagenUrl: rel })
+              await load()
+              setImageEditProduct(null)
+              await swalSuccess('Imagen actualizada')
+            }catch(e){ await swalError(e.response?.data?.error || e.message, 'Actualizar imagen') }
+          }}
+        />
       )}
 
       {/* Modal selector mayorista */}

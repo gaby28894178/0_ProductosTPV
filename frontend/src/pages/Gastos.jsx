@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { formatEsMoneyLive, parseEsNumber } from '../utils/money'
 import api from '../api'
 
 export default function Gastos(){
   const [items, setItems] = useState([])
   const [form, setForm] = useState({ tipo:'gasto', descripcion:'', monto:0, employeeId:null })
+  const [montoUi, setMontoUi] = useState('')
   const [error, setError] = useState('')
   const [employees, setEmployees] = useState([])
 
@@ -15,7 +17,7 @@ export default function Gastos(){
 
   const submit = async e=>{
     e.preventDefault(); setError('')
-    try{ await api.post('/expenses', form); setForm({ tipo:'gasto', descripcion:'', monto:0, employeeId:null }); await load() }catch(e){ setError(e.response?.data?.error || e.message) }
+    try{ await api.post('/expenses', form); setForm({ tipo:'gasto', descripcion:'', monto:0, employeeId:null }); setMontoUi(''); await load() }catch(e){ setError(e.response?.data?.error || e.message) }
   }
 
   const del = async id=>{ await api.delete(`/expenses/${id}`); await load() }
@@ -62,24 +64,26 @@ export default function Gastos(){
           <input
             id="gasto-monto"
             className="form-control"
-            type="number"
-            step="0.01"
-            placeholder="0.00"
-            value={form.monto}
+            type="text"
+            inputMode="decimal"
+            placeholder="0,00"
+            value={montoUi}
             onFocus={e=>{
-              const v = Number(form.monto);
-              if (!Number.isFinite(v) || v === 0) {
-                setForm({ ...form, monto: '' });
-                requestAnimationFrame(()=> e.target.select());
+              const v = String(montoUi||'')
+              if (!v || v === '0,00') {
+                setMontoUi('')
+                requestAnimationFrame(()=> e.target.select())
               }
             }}
             onChange={e=>{
-              const v = e.target.value;
-              setForm({ ...form, monto: v === '' ? '' : parseFloat(v) });
+              const formatted = formatEsMoneyLive(e.target.value)
+              setMontoUi(formatted)
+              setForm({ ...form, monto: parseEsNumber(formatted) })
             }}
             onBlur={e=>{
-              const n = parseFloat(e.target.value);
-              setForm({ ...form, monto: Number.isFinite(n) ? n : 0 });
+              const n = parseEsNumber(e.target.value)
+              setMontoUi(new Intl.NumberFormat('es-AR', { minimumFractionDigits:2, maximumFractionDigits:2 }).format(n))
+              setForm({ ...form, monto: n })
             }}
           />
         </label>

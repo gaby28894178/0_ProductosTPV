@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { formatEsMoneyLive } from '../utils/money'
 import api from '../api'
 import { swalConfirm, swalError, swalSuccess, swalPromptText } from '../components/swal'
 
@@ -18,6 +20,9 @@ function parseMoneyEs(str){
 }
 
 export default function Config(){
+  const navigate = useNavigate()
+  const CONFIG_PASS = String(import.meta.env.VITE_CONFIG_PASS || '').trim() || 'admin'
+  const [unlocked, setUnlocked] = useState(false)
   const [cfg, setCfg] = useState({ capitalInicial:0, proyeccionSemanal:0, proyeccionMensual:0, backupName:'', backupSemanalActivo:false, backupSemanalDia:1, backupSemanalHora:'09:00' })
   const [capitalStr, setCapitalStr] = useState('0,00')
   const [weeklyStr, setWeeklyStr] = useState('0,00')
@@ -36,7 +41,15 @@ export default function Config(){
       await api.get('/company')
     }catch(e){ /* opcional: ignoramos error si endpoint no disponible */ }
   }
-  useEffect(()=>{ load() },[])
+  // Se elimina el modal; se usa solo el formulario inline
+  useEffect(()=>{},[])
+
+  const handleUnlock = async (pass)=>{
+    const ok = String(pass||'').trim() === CONFIG_PASS
+    if (!ok) { await swalError('Password incorrecto.'); return }
+    setUnlocked(true)
+    await load()
+  }
 
   const save = async ()=>{ await api.put('/config', cfg); await load() }
   const downloadBackup = async ()=>{
@@ -86,6 +99,77 @@ export default function Config(){
     }catch(e){ swalError(e.response?.data?.error || e.message) }
   }
 
+  // Importación/Exportación de datos (Excel)
+  const exportProducts = async ()=>{
+    try{
+      const res = await api.get('/products/export.xlsx', { responseType: 'blob' })
+      const url = URL.createObjectURL(new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }))
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'productos.xlsx'
+      a.click()
+      URL.revokeObjectURL(url)
+    }catch(e){ await swalError(e.response?.data?.error || e.message, 'Exportar productos') }
+  }
+  const importProducts = async (file)=>{
+    if (!file) return
+    try{
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await api.post('/products/import', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+      await swalSuccess(`Productos: ${res.data.created} creados, ${res.data.updated} actualizados, ${res.data.skipped} saltados`)
+    }catch(e){ await swalError(e.response?.data?.error || e.message, 'Importar productos') }
+  }
+  const exportCustomers = async ()=>{
+    try{
+      const res = await api.get('/customers/export.xlsx', { responseType: 'blob' })
+      const url = URL.createObjectURL(new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }))
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'clientes.xlsx'
+      a.click()
+      URL.revokeObjectURL(url)
+    }catch(e){ await swalError(e.response?.data?.error || e.message, 'Exportar clientes') }
+  }
+  const importCustomers = async (file)=>{
+    if (!file) return
+    try{
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await api.post('/customers/import', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+      await swalSuccess(`Clientes: ${res.data.created} creados, ${res.data.updated} actualizados, ${res.data.skipped} saltados`)
+    }catch(e){ await swalError(e.response?.data?.error || e.message, 'Importar clientes') }
+  }
+
+  if (!unlocked) {
+    return (
+      <div className="container py-3">
+        <h2>Configuración</h2>
+        <div className="row g-2">
+          <div className="col-12 col-md-6">
+            <div className="card h-100">
+              <div className="card-header">Acceso protegido</div>
+              <div className="card-body" style={{ display:'grid', gap:8 }}>
+                <label>Contraseña
+                  <input id="cfg-pass" className="form-control" type="password" placeholder="********" />
+                </label>
+                <div>
+                  <button className="btn btn-primary" onClick={()=>{
+                    const el = document.getElementById('cfg-pass')
+                    const val = el?.value || ''
+                    handleUnlock(val)
+                  }}>Entrar</button>
+                  <button className="btn btn-outline-secondary ms-2" onClick={()=> navigate('/')}>Volver</button>
+                </div>
+                <small className="text-muted">Protegemos esta sección para evitar cambios o borrados accidentales.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="container py-2">
       <h2>Configuración</h2>
@@ -116,8 +200,9 @@ export default function Config(){
             value={capitalStr}
             onChange={e=>{
               const raw = e.target.value
-              setCapitalStr(raw)
-              const parsed = parseMoneyEs(raw)
+              const formatted = formatEsMoneyLive(raw)
+              setCapitalStr(formatted)
+              const parsed = parseMoneyEs(formatted)
               // En modo automático: mensual = 2×capital y semanal = mensual ÷ 4
               if (autoMode){
                 const mensual = parsed * 2
@@ -153,8 +238,9 @@ export default function Config(){
             onChange={e=>{
               if (autoMode) return
               const raw = e.target.value
-              setMonthlyStr(raw)
-              const mensual = parseMoneyEs(raw)
+              const formatted = formatEsMoneyLive(raw)
+              setMonthlyStr(formatted)
+              const mensual = parseMoneyEs(formatted)
               const semanal = mensual / 4
               setCfg({ ...cfg, proyeccionMensual: mensual, proyeccionSemanal: semanal })
               setWeeklyStr(formatMoneyEs(semanal))
@@ -201,19 +287,6 @@ export default function Config(){
             </div>
             <div className="row g-2 align-items-end">
               <div className="col-6">
-                <label>Día
-                  <select className="form-select" value={cfg.backupSemanalDia ?? 1} onChange={e=> setCfg({ ...cfg, backupSemanalDia: parseInt(e.target.value, 10) })}>
-                    <option value={0}>Domingo</option>
-                    <option value={1}>Lunes</option>
-                    <option value={2}>Martes</option>
-                    <option value={3}>Miércoles</option>
-                    <option value={4}>Jueves</option>
-                    <option value={5}>Viernes</option>
-                    <option value={6}>Sábado</option>
-                  </select>
-                </label>
-              </div>
-              <div className="col-6">
                 <label>Hora
                   <input className="form-control" type="time" value={cfg.backupSemanalHora || '09:00'} onChange={e=> setCfg({ ...cfg, backupSemanalHora: e.target.value })} />
                 </label>
@@ -224,6 +297,27 @@ export default function Config(){
               <button className="btn btn-outline-primary" onClick={save}>Guardar backup semanal</button>
             </div>
           </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Importación/Exportación de datos */}
+      <div className="row g-2 mt-2">
+        <div className="col-12">
+          <div className="card">
+            <div className="card-header">Importación/Exportación de datos</div>
+            <div className="card-body d-flex flex-wrap" style={{ gap:8 }}>
+              <button className="btn btn-outline-success" onClick={exportProducts}>Exportar productos</button>
+              <label className="btn btn-outline-primary mb-0">
+                Importar productos
+                <input type="file" accept=".xlsx,.xls" style={{ display:'none' }} onChange={e=> importProducts(e.target.files?.[0])} />
+              </label>
+              <span className="vr" />
+              <button className="btn btn-outline-success" onClick={exportCustomers}>Exportar clientes</button>
+              <label className="btn btn-outline-primary mb-0">
+                Importar clientes
+                <input type="file" accept=".xlsx,.xls" style={{ display:'none' }} onChange={e=> importCustomers(e.target.files?.[0])} />
+              </label>
             </div>
           </div>
         </div>

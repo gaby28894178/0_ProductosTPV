@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { formatEsMoneyLive, parseEsNumber, formatEs } from '../utils/money'
 import api from '../api'
 import '../styles/Empleados.css'
 import stylesEmpleados from '../styles/modules/Empleados/Empleados.module.css'
@@ -117,17 +118,15 @@ export default function Empleados(){
             type="text"
             inputMode="decimal"
             placeholder="10.000,00"
-            value={sueldoText !== '' ? sueldoText : (form.sueldoMensual ? formatter.format(form.sueldoMensual) : '')}
+            value={sueldoText !== '' ? sueldoText : (form.sueldoMensual ? formatEs(form.sueldoMensual) : '')}
             onChange={e=>{
-              const raw = (e.target.value || '')
-              const cleaned = raw.replace(/\./g, '').replace(',', '.')
-              const num = parseFloat(cleaned)
-              setSueldoText(raw)
-              setForm({ ...form, sueldoMensual: isNaN(num) ? 0 : num })
+              const formatted = formatEsMoneyLive(e.target.value)
+              setSueldoText(formatted)
+              setForm({ ...form, sueldoMensual: parseEsNumber(formatted) })
             }}
             onBlur={()=>{
               const num = Number(form.sueldoMensual)||0
-              setSueldoText(num ? formatter.format(num) : '')
+              setSueldoText(num ? formatEs(num) : '')
             }}
           />
         </label>
@@ -212,14 +211,17 @@ export default function Empleados(){
                         value={
                           (pagoMontoTextByEmp[e.id] ?? '') !== ''
                             ? pagoMontoTextByEmp[e.id]
-                            : formatter.format(pagoMontoByEmp[e.id] ?? 0)
+                            : formatEs(pagoMontoByEmp[e.id] ?? 0)
                         }
                         onChange={ev=> {
-                          const raw = (ev.target.value || '')
-                          const cleaned = raw.replace(/\./g, '').replace(',', '.')
-                          const num = parseFloat(cleaned)
-                          setPagoMontoTextByEmp(prev=> ({ ...prev, [e.id]: raw }))
-                          setPagoMontoByEmp(prev=> ({ ...prev, [e.id]: isNaN(num) ? 0 : num }))
+                          const formatted = formatEsMoneyLive(ev.target.value)
+                          setPagoMontoTextByEmp(prev=> ({ ...prev, [e.id]: formatted }))
+                          setPagoMontoByEmp(prev=> ({ ...prev, [e.id]: parseEsNumber(formatted) }))
+                        }}
+                        onBlur={ev=> {
+                          const num = parseEsNumber(ev.target.value)
+                          setPagoMontoTextByEmp(prev=> ({ ...prev, [e.id]: formatEs(num) }))
+                          setPagoMontoByEmp(prev=> ({ ...prev, [e.id]: num }))
                         }}
                       />
                       <button
@@ -229,7 +231,7 @@ export default function Empleados(){
                           const current = Number(pagoMontoByEmp[e.id] || 0)
                           const next = current + 10000
                           setPagoMontoByEmp(prev=> ({ ...prev, [e.id]: next }))
-                          setPagoMontoTextByEmp(prev=> ({ ...prev, [e.id]: formatter.format(next) }))
+                          setPagoMontoTextByEmp(prev=> ({ ...prev, [e.id]: formatEs(next) }))
                         }}
                       >+10.000</button>
                     </div>

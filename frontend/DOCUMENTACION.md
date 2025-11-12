@@ -8,12 +8,12 @@ Aplicación React (Vite) para gestión de ventas, productos, clientes, gastos, e
 
 - Node.js 18+
 - Variables de entorno en `frontend/.env` (opcional):
-  - `VITE_API_URL` (por defecto `http://localhost:4000/api`)
+  - `VITE_API_URL` (por defecto `http://localhost:3001/api`)
 
 ## Desarrollo
 
 - Ejecutar `npm install` y luego `npm run dev` en la carpeta `frontend`.
-- Abrir la URL que indique Vite (por ejemplo `http://localhost:5174/`).
+- Abrir la URL que indique Vite (por ejemplo `http://localhost:5173/`).
 
 ## Estructura principal
 
@@ -99,6 +99,21 @@ Nota: si un tipo no aparece en la lista, se contabiliza como operativos (rojo) p
 
 ## Lanzador (.bat)
 
-- En la raíz del proyecto hay un lanzador `.bat` para iniciar frontend y backend en dos consolas.
-- Si usás `npm run dev` en backend, el puerto por defecto es `4000` (API `http://localhost:4000/api`).
-- Si se inicia con `node src/server.js` puede variar según la configuración; revisar el `.env` o el comentario del script.
+- En la raíz del proyecto hay un lanzador `Abrir_App.bat` que:
+  - Cierra puertos ocupados antes de iniciar (Backend `3001`, Frontend `5173..5185`, Preview `5500`).
+  - Inicia `npm run dev` en `backend` y `frontend` en dos consolas separadas.
+  - Abre automáticamente el primer puerto de Vite disponible (normalmente `http://localhost:5173/`).
+  - Si no detecta Vite, hace fallback a `http://localhost:5173/`.
+
+ - Backend por defecto escucha en `http://localhost:3001` (configurable con `PORT` en `backend/.env`).
+
+## Presupuesto: IVA
+
+- En `Presupuesto` se agregó control de IVA:
+  - Checkbox para activar/desactivar.
+  - Input para definir el porcentaje (por defecto 21% o el valor de `tax_rate` en `company.json`).
+- Los badges del carrito muestran `Subtotal`, `IVA` y `Total` en tiempo real.
+- Al generar PDF:
+  - Se guarda `{ conIva, ivaPct }` en `localStorage` bajo `presupuestoIva`.
+  - `BoletaPreview` lee esa configuración y calcula `Subtotal`, `IVA` y `Total` para el documento impreso.
+  - La impresión se realiza en iframe oculto sin salir de la página.

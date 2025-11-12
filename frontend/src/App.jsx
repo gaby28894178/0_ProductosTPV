@@ -12,6 +12,8 @@ import Facturas from './pages/Facturas'
 import Clientes from './pages/Clientes'
 import Mayorista from './pages/Mayorista'
 import BoletaPreview from './pages/BoletaPreview';
+import ListaPrecios from './pages/ListaPrecios'
+import Presupuesto from './pages/Presupuesto'
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token')
@@ -27,6 +29,7 @@ export default function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/productos" element={<PrivateRoute><Productos /></PrivateRoute>} />
+          <Route path="/presupuesto" element={<PrivateRoute><Presupuesto /></PrivateRoute>} />
           <Route path="/ventas" element={<PrivateRoute><Ventas /></PrivateRoute>} />
           <Route path="/gastos" element={<PrivateRoute><Gastos /></PrivateRoute>} />
           <Route path="/empleados" element={<PrivateRoute><Empleados /></PrivateRoute>} />
@@ -34,6 +37,7 @@ export default function App() {
           <Route path="/config" element={<PrivateRoute><Config /></PrivateRoute>} />
           <Route path="/facturas" element={<PrivateRoute><Facturas /></PrivateRoute>} />
           <Route path="/mayorista" element={<PrivateRoute><Mayorista /></PrivateRoute>} />
+          <Route path="/lista-precios" element={<PrivateRoute><ListaPrecios /></PrivateRoute>} />
           <Route path="/boleta-preview" element={<BoletaPreview />} />
         </Routes>
       </div>

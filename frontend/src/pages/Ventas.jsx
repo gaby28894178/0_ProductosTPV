@@ -79,6 +79,23 @@ export default function Ventas(){
   }
   useEffect(()=>{ load() },[])
 
+  // Importar carrito desde Presupuesto si existe (transferencia sin descontar antes)
+  useEffect(()=>{
+    try{
+      const raw = localStorage.getItem('budgetCart')
+      if (raw) {
+        const items = JSON.parse(raw)
+        if (Array.isArray(items)) setCart(items.map(c=> ({
+          productId: c.productId,
+          name: c.name,
+          price: Number(c.price||0),
+          quantity: Math.trunc(Number(c.quantity||1))
+        })))
+        localStorage.removeItem('budgetCart')
+      }
+    }catch{}
+  },[])
+
   // Cargar clientes cuando se abre el selector de existentes
   useEffect(()=>{
     const loadExisting = async ()=>{

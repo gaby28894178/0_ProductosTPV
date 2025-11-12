@@ -125,7 +125,9 @@ export default function Clientes(){
       <div className="card">
         <div className="card-header d-flex justify-content-between align-items-center">
           <span>Listado</span>
-          <button className="btn btn-success" onClick={enviarPublicidad}>Enviar publicidad</button>
+          <div className="d-flex" style={{ gap: 8 }}>
+            <button className="btn btn-success" onClick={enviarPublicidad}>Enviar publicidad</button>
+          </div>
         </div>
         <div className="card-body">
           <div className="table-responsive">

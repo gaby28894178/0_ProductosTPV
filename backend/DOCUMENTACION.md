@@ -8,7 +8,7 @@ API Express con Sequelize y SQLite por defecto. Provee endpoints para autenticac
 
 - Node.js 18+
 - Variables `.env` en `backend/.env` (ver `backend/.env.example`).
-- Puerto por defecto: `PORT=4000`.
+- Puerto por defecto: `PORT=3001`.
 
 ## Configuración clave
 

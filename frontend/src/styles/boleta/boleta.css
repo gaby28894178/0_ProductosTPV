@@ -27,16 +27,16 @@
 /* Header con logo y datos de la empresa */
 .boleta-header {
   display: grid;
-  grid-template-columns: 140px 1fr;
+  grid-template-columns: 220px 1fr; /* ancho más generoso para el logo */
   gap: 16px;
   align-items: center;
   margin-bottom: 12px;
 }
 
 .boleta-logo {
-  width: 140px;
-  height: 80px;
-  object-fit: contain;
+  width: 100%;           /* que ocupe el ancho completo del rectángulo */
+  height: 100px;         /* altura moderada para mantener proporción */
+  object-fit: contain;   /* no distorsionar el logo */
   border: 1px dashed var(--boleta-border-color);
   background: #fafafa;
 }
@@ -157,6 +157,8 @@
     page-break-inside: avoid;
   }
   .boleta-footer { page-break-inside: avoid; }
+  /* Ocultar navbar y elementos fijos al imprimir */
+  .navbar, .fixed-top { display: none !important; }
 }
 
 /* Panel de control de la vista previa (opcional) */

@@ -104,7 +104,7 @@ html.theme-dark body {
 }
 /* Navbar (oscuro): el color y el fondo ahora los provee Nav.module.css.
    Este selector no modifica colores para evitar duplicaciones. */
-html.theme-dark .navbar { /* sin cambios de color ni fondo aquí */ }
+/* html.theme-dark .navbar – no additional overrides needed; styles handled by Nav.module.css */
 html.theme-dark .card {
   background-color: var(--card-bg);
   color: var(--text);

@@ -6,15 +6,15 @@
   "phone": "+54 9 11 2189-7340",
   "email": "cleanproempresa2025@gmail.com",
   "address_lines": [
-    "Calle Cataluña 9651",
+    "Parque Industrial MORENO",
     "Buenos Aires"
   ],
   "logo_path": "assets/invoice-assets/logo.png",
   "default_product_image": "assets/invoice-assets/default-product.png",
   "legal_note": "Este comprobante se emite conforme a la legislación comercial vigente. Conservar la factura para garantías y devoluciones según políticas del comercio.",
   "bill_to": [
-    "Nombre de la empresa",
-    "Calle Cataluña 9651",
+    "CleanPro.s.a",
+    "Parque Industrial MORENO",
     "Buenos Aires"
   ],
   "ship_to": [
@@ -24,6 +24,6 @@
   ],
   "tax_rate": 21,
   "shipping_amount": 0,
-  "reset_password_salt": "be794494c633e58affea1bcc27463a78",
-  "reset_password_hash": "79ea9bd95491a9e1ed9a3fad1841b7aac13a7dfb8b0d5ad67279cb823fc115639092f68f77516b4e2c28024837de6511a8f78508f017036843d1a71feb11430d"
+  "reset_password_salt": "042b5fe1b8692939d3b7a60988491c3e",
+  "reset_password_hash": "52881bb7836249fbfa455eccd777714bc814e848287361ea1aea131da2a0ab7a81079a9c69f19bd819b79525e865df1c1ec0c6bb2f7d81da89dc5bc5844fd31c"
 }
