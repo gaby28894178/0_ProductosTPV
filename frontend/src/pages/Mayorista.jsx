@@ -181,15 +181,15 @@ export default function Mayorista(){
   }
 
   return (
-    <div className="container pt-0 pb-2" style={{ marginTop: 0 }}>
-      <h2 className="mb-1">Ingreso mayorista</h2>
-      <p className="text-muted mb-2">Cargá productos por paquete, balde o bidón. La unidad se ajusta automáticamente (Kg para pastas, L para líquidos).</p>
+    <div className="container pt-2 pb-2 page-mayorista">
+      <h2 className="mb-1 mt-3">Ingreso mayorista</h2>
+      {/* <p className="text-muted mb-2">Cargá productos por paquete, balde o bidón. La unidad se ajusta automáticamente (Kg para pastas, L para líquidos).</p> */}
       <div className="card">
         <div className="card-body">
-          <div className="row g-2">
+          <div className="row g-1">
             <div className="col-md-4">
               <label className="form-label">Categoría</label>
-              <select className="form-select" value={categoria} onChange={e=>{ const v=e.target.value; setCategoria(v); setEmpaque(v==='pastas'?'paquete':'bidon') }}>
+              <select className="form-select form-select-sm" style={{ width: '50%', marginBottom: 4 }} value={categoria} onChange={e=>{ const v=e.target.value; setCategoria(v); setEmpaque(v==='pastas'?'paquete':'bidon') }}>
                 <option value="pastas">Pastas</option>
                 <option value="liquidos">Líquidos</option>
               </select>
@@ -200,7 +200,8 @@ export default function Mayorista(){
                 type="text"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                className="form-control"
+                className="form-control form-control-sm"
+                style={{ width: '50%', marginBottom: 4 }}
                 placeholder="ej: 100"
                 value={uiRendimiento}
                 onChange={e=> setUiRendimiento(String(e.target.value||'').replace(/[^0-9]/g,''))}
@@ -210,7 +211,7 @@ export default function Mayorista(){
             </div>
             <div className="col-md-4">
               <label className="form-label">Empaque</label>
-              <select className="form-select" value={empaque} onChange={e=> setEmpaque(e.target.value)}>
+              <select className="form-select form-select-sm" style={{ width: '50%', marginBottom: 4 }} value={empaque} onChange={e=> setEmpaque(e.target.value)}>
                 {categoria==='pastas' ? (
                   <>
                     <option value="paquete">Paquete</option>
@@ -227,7 +228,8 @@ export default function Mayorista(){
                 type="text"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                className={`form-control ${errors.capacidad?'is-invalid':''}`}
+                className={`form-control form-control-sm ${errors.capacidad?'is-invalid':''}`}
+                style={{ width: '50%', marginBottom: 4 }}
                 placeholder={unidad==='kilo'?'Kg':'L'}
                 value={String(uiCapacidad)}
                 onChange={e=>{
@@ -252,10 +254,11 @@ export default function Mayorista(){
               />
               {errors.capacidad && <div className="invalid-feedback">Ingresá un número mayor a 0</div>}
             </div>
-            <div className="col-md-6">
+            <div className="col-md-4">
               <label className="form-label">Producto nombre interno materia prima</label>
               <input
-                className={`form-control ${errors.nombre?'is-invalid':''}`}
+                className={`form-control form-control-sm ${errors.nombre?'is-invalid':''}`}
+                style={{ width: '50%', marginBottom: 4 }}
                 value={nombreBase}
                 onChange={e=> setNombreBase(capitalizeWords(e.target.value))}
                 onFocus={e=>{
@@ -270,10 +273,11 @@ export default function Mayorista(){
               />
               {errors.nombre && <div className="invalid-feedback">Campo requerido</div>}
             </div>
-            <div className="col-md-6">
+            <div className="col-md-4">
               <label className="form-label">Marca (por defecto CLEANPRO)</label>
               <input
-                className="form-control"
+                className="form-control form-control-sm"
+                style={{ width: '50%', marginBottom: 4 }}
                 value={marca}
                 onChange={e=> setMarca(e.target.value)}
                 onFocus={e=>{
@@ -290,8 +294,8 @@ export default function Mayorista(){
             <div className="col-md-12">
               <label className="form-label">Imagen (local)</label>
               <div className="d-flex position-relative" style={{ gap:8 }}>
-                <button type="button" className="btn btn-outline-secondary" onClick={()=> setImageSelectorOpen(true)}>Ver miniaturas</button>
-                <button type="button" className="btn btn-outline-primary" onClick={()=> setImageDropdownOpen(prev=> !prev)}>Desplegable con miniaturas</button>
+                <button type="button" className="btn btn-outline-secondary btn-sm" onClick={()=> setImageSelectorOpen(true)}>Ver miniaturas</button>
+                <button type="button" className="btn btn-outline-primary btn-sm" onClick={()=> setImageDropdownOpen(prev=> !prev)}>Desplegable con miniaturas</button>
                 {imageDropdownOpen && (
                   <div className="card" style={{ position:'absolute', top:'100%', left:0, zIndex:1000, width:'90%', maxHeight:285, overflowY:'auto', boxShadow:'0 6px 12px rgba(0,0,0,0.15)' }}>
                     <div className="list-group list-group-flush">
@@ -326,7 +330,8 @@ export default function Mayorista(){
               <input
                 type="text"
                 inputMode="decimal"
-                className={`form-control ${errors.precioMayorista?'is-invalid':''}`}
+                className={`form-control form-control-sm ${errors.precioMayorista?'is-invalid':''}`}
+                style={{ marginBottom: 4 }}
                 placeholder="0,00"
                 value={precioVal.valor}
                 onChange={e=>{
@@ -358,7 +363,8 @@ export default function Mayorista(){
                 type="text"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                className={`form-control ${errors.stock?'is-invalid':''}`}
+                className={`form-control form-control-sm ${errors.stock?'is-invalid':''}`}
+                style={{ marginBottom: 4 }}
                 placeholder="0"
                 value={String(stock)}
                 onChange={e=> {
@@ -387,23 +393,23 @@ export default function Mayorista(){
           </div>
         </div>
         <div className="card-footer d-flex justify-content-end" style={{gap:8}}>
-          <button className="btn btn-primary" onClick={submit}>Crear producto</button>
+          <button className="btn btn-primary btn-sm" onClick={submit}>Crear producto</button>
         </div>
       </div>
-      <div className="mt-3">
+      {/* <div className="mt-3">
         <small className="text-muted">Ejemplo de nombre generado: <strong>{nombre}</strong></small>
-      </div>
+      </div> */}
       {/* Grilla de productos mayoristas */}
-      <div className="mt-4">
+      <div className="mt-2">
         <h5 className="mb-2">Productos mayoristas</h5>
-        <div className="d-flex justify-content-between align-items-center" style={{ gap:12 }}>
-          <input className="form-control" style={{ maxWidth: 320 }} placeholder="Buscar por nombre, marca o ID" value={search} onChange={e=> setSearch(e.target.value)} />
-          <div className="d-flex" style={{ gap:8 }}>
-            <select className="form-select" style={{ maxWidth: 160 }} value={sortField} onChange={e=> setSortField(e.target.value)}>
+        <div className="d-flex justify-content-between align-items-center" style={{ gap:8 }}>
+          <input className="form-control form-control-sm" style={{ maxWidth: 280 }} placeholder="Buscar por nombre, marca o ID" value={search} onChange={e=> setSearch(e.target.value)} />
+          <div className="d-flex" style={{ gap:6 }}>
+            <select className="form-select form-select-sm" style={{ maxWidth: 150 }} value={sortField} onChange={e=> setSortField(e.target.value)}>
               <option value="id">Ordenar por ID</option>
               <option value="fecha">Ordenar por fecha</option>
             </select>
-            <select className="form-select" style={{ maxWidth: 140 }} value={sortDir} onChange={e=> setSortDir(e.target.value)}>
+            <select className="form-select form-select-sm" style={{ maxWidth: 130 }} value={sortDir} onChange={e=> setSortDir(e.target.value)}>
               <option value="desc">Descendente</option>
               <option value="asc">Ascendente</option>
             </select>

@@ -23,7 +23,7 @@ export default function Gastos(){
   const del = async id=>{ await api.delete(`/expenses/${id}`); await load() }
 
   return (
-    <div className="container py-3">
+    <div className="container py-3 mt-2">
       <h2>Gastos y pagos</h2>
       <div className="card">
         <div className="card-header">Registrar gasto o pago</div>

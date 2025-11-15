@@ -95,8 +95,8 @@ export default function Presupuesto(){
   }
 
   return (
-    <div className="container py-2">
-      <div className="row g-2 align-items-center mb-2">
+    <div className="container pt-1">
+      <div className="row g-1 align-items-center mb-1">
         <div className="col-auto"><h2 className="mb-0">Presupuesto</h2></div>
         <div className="col">
           <div className="input-group input-group-sm">
@@ -119,7 +119,7 @@ export default function Presupuesto(){
         <div className="alert alert-danger">{error}</div>
       )}
 
-      <div className="row g-2">
+      <div className="row g-1">
         <div className="col-12 col-lg-5">
           <div className="card">
             <div className="card-header">Productos</div>

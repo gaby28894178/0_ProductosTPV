@@ -91,7 +91,7 @@ export default function Empleados(){
     })
 
   return (
-    <div className="container py-3">
+    <div className="container py-3 mt-2">
       <h2>Empleados</h2>
       <div className="card">
         <div className="card-header">Agregar empleado</div>

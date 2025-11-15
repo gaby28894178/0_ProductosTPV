@@ -187,7 +187,7 @@ export default function Dashboard(){
   }
 
   return (
-    <div className="container py-2 page-dashboard">
+    <div className="container py-2 page-dashboard mt-4">
       {/* Header con título a la izquierda y controles a la derecha */}
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h2 className="m-0 d-flex align-items-center">
@@ -263,7 +263,7 @@ export default function Dashboard(){
             </div>
             <div className="card-body">
               {/* Grilla uniforme para cards del Dash */}
-              <div className="d-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 8 }}>
+              <div className="d-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 4 }}>
                 <div className="card border-primary h-100">
                   <div className="card-body py-1">
                     <div className="d-flex flex-column">
@@ -495,7 +495,7 @@ export default function Dashboard(){
         <div className="text-muted">No hay datos de ventas ni capacidad.</div>
       ) : (
         <div className="card">
-          <div className="card-header d-flex flex-wrap" style={{ gap:8 }}>
+          <div className="card-header d-flex flex-wrap" style={{ gap:4 }}>
             {productTabData.map(pt => (
               <button
                 key={pt.productId}
@@ -507,7 +507,7 @@ export default function Dashboard(){
           <div className="card-body">
             {productTabData.filter(pt=> pt.productId===activeProductId).map(pt => (
               <div key={pt.productId}>
-                <div className="d-grid" style={{ gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))', gap:8 }}>
+                <div className="d-grid" style={{ gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))', gap:4 }}>
                   <div className="card border-primary">
                     <div className="card-body py-2">
                       <span className="fw-semibold text-primary">Vendidos (período)</span>

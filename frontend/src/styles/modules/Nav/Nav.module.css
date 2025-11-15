@@ -13,8 +13,8 @@
 .navBar {
   background-image: var(--nav-gradient) !important;
   z-index: 1050; /* por encima del contenido */
-  padding-top: 10px;
-  padding-bottom: 10px; /* barra un poquito más grande */
+  padding-top: 6px; /* separación mínima */
+  padding-bottom: 6px; /* separación mínima */
 }
 
 .brandClean {

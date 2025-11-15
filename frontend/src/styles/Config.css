@@ -1,0 +1,34 @@
+/*
+  Estilos separados para Config
+  - Reduce márgenes entre inputs, botones y párrafos.
+  - Aplica sólo cuando el contenedor incluye .page-config para no afectar otras páginas.
+*/
+.page-config .form-label { margin-bottom: 0.25rem !important; }
+.page-config label { margin-bottom: 0.25rem !important; }
+.page-config p { margin-bottom: 0.35rem !important; }
+.page-config .btn { margin-bottom: 0.25rem !important; padding-top: 0.375rem; padding-bottom: 0.375rem; }
+.page-config .form-control,
+.page-config .form-select,
+.page-config .input-group { margin-bottom: 0.25rem !important; }
+
+/* Compactación extra sólo para la tarjeta de Parámetros financieros */
+.page-config .finance-compact .form-label,
+.page-config .finance-compact label { margin-bottom: 0.20rem !important; }
+.page-config .finance-compact p { margin-bottom: 0.25rem !important; }
+.page-config .finance-compact .form-control,
+.page-config .finance-compact .form-select,
+.page-config .finance-compact .input-group { margin-bottom: 0.20rem !important; }
+.page-config .finance-compact .form-check { margin-bottom: 0.20rem !important; }
+
+/* Mejora de contraste para botones verdes (Importación/Exportación) en tema oscuro */
+html.theme-dark .page-config .btn-outline-success {
+  color: #43d17d !important;            /* verde más brillante */
+  border-color: #43d17d !important;
+  background-color: rgba(67, 209, 125, 0.12) !important; /* leve relleno para contraste */
+}
+html.theme-dark .page-config .btn-outline-success:hover,
+html.theme-dark .page-config .btn-outline-success:focus {
+  color: #ffffff !important;
+  border-color: #43d17d !important;
+  background-color: rgba(67, 209, 125, 0.28) !important; /* más visible al hover */
+}

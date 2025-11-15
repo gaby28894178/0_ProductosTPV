@@ -24,7 +24,7 @@ export default function App() {
   return (
     <div>
       <Nav />
-      <div style={{ padding: '8px 12px' }}>
+      <div style={{ padding: '4px 6px' }}>
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

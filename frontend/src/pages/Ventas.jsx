@@ -267,7 +267,7 @@ export default function Ventas(){
       <div className="row align-items-center g-2 mb-1">
         <div className="col-auto">
           <h2 className="mb-0">Ventas </h2>
-         <span style={{ color: isDarkTheme ? '#ffffff' : '#f51111' }}>Buscar Productos</span>
+         <span style={{ color: isDarkTheme ? '#ffffff' : '#28a745' }}>Buscar Productos</span>
         </div>
         <div className="col d-flex align-items-center">
           <div className="input-group input-group-sm align-items-center">

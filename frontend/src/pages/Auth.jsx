@@ -27,7 +27,7 @@ export default function Auth() {
   }
 
   return (
-    <div className="container py-3" style={{ maxWidth: 600 }}>
+    <div className="container py-3 mt-2" style={{ maxWidth: 600 }}>
       <h2 className="mb-3">{mode === 'login' ? 'Ingresar' : 'Registrarse'}</h2>
       <div className="mb-3 d-flex gap-2">
         <button className="btn btn-outline-secondary" onClick={() => setMode('login')}>Login</button>

@@ -74,7 +74,7 @@ export default function Productos(){
       }
       const res = await api.post('/products', payload)
       const created = res?.data
-      // Si se seleccionó materia prima, crear mapeo y registrar litros
+      // Si se seleccionó materia prima, crear mapeo y (opcional) registrar litros
       if (mayoristaSel && created?.id) {
         const rendimiento = Math.trunc(Number(mayoristaSel?.rendimientoLitrosPorEmpaque||100))
         if (Number.isFinite(rendimiento) && rendimiento>0) {
@@ -82,11 +82,18 @@ export default function Productos(){
         }
         const litros = Math.trunc(Number((litrosCrear||'').replace(/[^0-9]/g,'')))
         if (litros>0) {
-          try {
-            await api.post('/production/produce', { productId: created.id, materiaPrimaId: mayoristaSel.id, litros, nota: 'Registro automático al crear producto' })
-          } catch (err) {
-            // Mostrar error si excede capacidad o datos inválidos
-            setError(err?.response?.data?.error || err?.message)
+          // Confirmar antes de registrar producción, ya que consumirá empaques de materia prima
+          const ok = await swalConfirm({
+            title: 'Registrar litros producidos',
+            text: `Se registrarán ${litros} L usando la materia prima "${mayoristaSel.nombre}". Esto consumirá empaques y reducirá la capacidad restante.`,
+          })
+          if (ok) {
+            try {
+              await api.post('/production/produce', { productId: created.id, materiaPrimaId: mayoristaSel.id, litros, nota: 'Registro automático al crear producto' })
+            } catch (err) {
+              // Mostrar error si excede capacidad o datos inválidos
+              setError(err?.response?.data?.error || err?.message)
+            }
           }
         }
       }
@@ -123,12 +130,12 @@ export default function Productos(){
           <button className="btn btn-sm btn-secondary" onClick={()=> setSelectorAbierto(true)}>Buscar producto mayorista</button>
         </div>
         <div className="card-body">
-      <form onSubmit={onSubmit} style={{ display:'grid', gap:12, gridTemplateColumns:'repeat(2, minmax(250px, 1fr))', maxWidth:900 }}>
+      <form onSubmit={onSubmit} style={{ display:'grid', gap:6, gridTemplateColumns:'repeat(3, minmax(200px, 1fr))', maxWidth:'100%' }}>
         <label htmlFor="nombreBoleta">Nombre del producto (se usará en la boleta)
-          <input className="form-control" id="nombreBoleta" value={form.nombreBoleta} onChange={e=>setForm({...form,nombreBoleta:capitalizeWords(e.target.value)})} placeholder="Ej: jabón líquido azul" required />
+          <input className="form-control form-control-sm" id="nombreBoleta" value={form.nombreBoleta} onChange={e=>setForm({...form,nombreBoleta:capitalizeWords(e.target.value)})} placeholder="Ej: jabón líquido azul" required />
         </label>
         <label htmlFor="marca">Marca
-          <input className="form-control" id="marca" value={form.marca} onChange={e=>setForm({...form,marca:e.target.value})} />
+          <input className="form-control form-control-sm" id="marca" value={form.marca} onChange={e=>setForm({...form,marca:e.target.value})} />
         </label>
 
         {mayoristaSel && (
@@ -140,11 +147,11 @@ export default function Productos(){
           </div>
         )}
 
-        <label htmlFor="descripcion" style={{ gridColumn:'1 / span 2' }}>Descripción
-          <textarea className="form-control" id="descripcion" value={form.descripcion} onChange={e=>setForm({...form,descripcion:e.target.value})} />
+        <label htmlFor="descripcion" style={{ gridColumn:'1 / span 3' }}>Descripción
+          <textarea className="form-control form-control-sm" id="descripcion" value={form.descripcion} onChange={e=>setForm({...form,descripcion:e.target.value})} rows={2} />
         </label>
 
-        <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:6 }}>
           <span>Unidad</span>
           <label><input type="radio" name="unidad" checked={form.unidad==='litro'} onChange={()=>setForm({...form,unidad:'litro'})}/> Litro</label>
           <label><input type="radio" name="unidad" checked={form.unidad==='kilo'} onChange={()=>setForm({...form,unidad:'kilo'})}/> Kilo</label>
@@ -158,7 +165,7 @@ export default function Productos(){
 
             <label htmlFor="litrosCrear">Litros a registrar (sumar al stock)
               <input
-                className="form-control"
+                className="form-control form-control-sm"
                 id="litrosCrear"
                 type="text"
                 inputMode="numeric"
@@ -169,7 +176,7 @@ export default function Productos(){
             </label>
 
             {/* Resumen de capacidad potencial para el mayorista seleccionado */}
-            <div style={{ gridColumn:'1 / span 2' }} className="alert alert-secondary d-flex justify-content-between align-items-center">
+            <div style={{ gridColumn:'1 / span 3' }} className="alert alert-secondary d-flex justify-content-between align-items-center">
               <span><strong>Capacidad potencial</strong></span>
               <span>Stock empaques: <strong>{stockEmpaquesSel}</strong></span>
               <span>Total: <strong>{capacidadTotalSel} L</strong> · Creado: <strong>0 L</strong> · Restante: <strong>{capacidadTotalSel} L</strong></span>
@@ -180,7 +187,7 @@ export default function Productos(){
         {!mayoristaSel && (
           <label htmlFor="stock">Stock (cantidad)
             <input
-              className="form-control"
+              className="form-control form-control-sm"
               id="stock"
               type="text"
               inputMode="numeric"
@@ -206,7 +213,7 @@ export default function Productos(){
 
         <label htmlFor="pmayor">Precio mayorista
           <input
-            className="form-control"
+            className="form-control form-control-sm"
             id="pmayor"
             type="text"
             inputMode="decimal"
@@ -227,7 +234,7 @@ export default function Productos(){
 
         <label htmlFor="ppublico">Precio público
           <input
-            className="form-control"
+            className="form-control form-control-sm"
             id="ppublico"
             type="text"
             inputMode="decimal"
@@ -246,7 +253,7 @@ export default function Productos(){
           />
         </label>
 
-        <div style={{ gridColumn:'1 / span 2' }}>
+        <div style={{ gridColumn:'1 / span 3' }}>
           <button className="btn btn-primary" type="submit">Agregar producto</button>
         </div>
       </form>
@@ -254,14 +261,14 @@ export default function Productos(){
       </div>
       {error && <p style={{color:'red'}}>{error}</p>}
 
-      <div className="d-flex justify-content-between align-items-center" style={{ marginTop:8, gap:12 }}>
-        <input className="form-control" style={{ maxWidth: 320 }} placeholder="Buscar por nombre, marca o ID" value={search} onChange={e=> setSearch(e.target.value)} />
-        <div className="d-flex align-items-center" style={{ gap:8 }}>
-          <select className="form-select" style={{ maxWidth: 160 }} value={sortField} onChange={e=> setSortField(e.target.value)}>
+      <div className="d-flex justify-content-between align-items-center" style={{ marginTop:8, gap:8 }}>
+        <input className="form-control form-control-sm" style={{ maxWidth: 280 }} placeholder="Buscar por nombre, marca o ID" value={search} onChange={e=> setSearch(e.target.value)} />
+        <div className="d-flex align-items-center" style={{ gap:6 }}>
+          <select className="form-select form-select-sm" style={{ maxWidth: 150 }} value={sortField} onChange={e=> setSortField(e.target.value)}>
             <option value="id">Ordenar por ID</option>
             <option value="fecha">Ordenar por fecha</option>
           </select>
-          <select className="form-select" style={{ maxWidth: 140 }} value={sortDir} onChange={e=> setSortDir(e.target.value)}>
+          <select className="form-select form-select-sm" style={{ maxWidth: 130 }} value={sortDir} onChange={e=> setSortDir(e.target.value)}>
             <option value="desc">Descendente</option>
             <option value="asc">Ascendente</option>
           </select>

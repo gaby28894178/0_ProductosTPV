@@ -8,7 +8,7 @@
 /* Encabezados: fondo gris claro (#f3f3f3) y texto gris oscuro (#333) */
 .tabla-productos.uniform-gray thead th {
   background-color: #f3f3f3;
-  color: #333;
+  color: #cf1515;
 }
 /* Celdas del cuerpo: fondo gris claro uniforme (#f3f3f3) */
 .tabla-productos.uniform-gray tbody tr td {

@@ -100,7 +100,7 @@ export default function Clientes(){
   }
 
   return (
-    <div className="container py-3">
+    <div className="container py-3 mt-2">
       <h2>Clientes</h2>
       {error && <div className="alert alert-danger">{error}</div>}
       <div className="card mb-3">

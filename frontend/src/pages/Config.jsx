@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { formatEsMoneyLive } from '../utils/money'
 import api from '../api'
 import { swalConfirm, swalError, swalSuccess, swalPromptText } from '../components/swal'
+import '../styles/Config.css'
 
 // Formateo y parseo de dinero con punto de miles y coma decimal (es-AR)
 function formatMoneyEs(value){
@@ -149,7 +150,7 @@ export default function Config(){
           <div className="col-12 col-md-6">
             <div className="card h-100">
               <div className="card-header">Acceso protegido</div>
-              <div className="card-body" style={{ display:'grid', gap:8 }}>
+              <div className="card-body" style={{ display:'grid', gap:4 }}>
                 <label>Contraseña
                   <input id="cfg-pass" className="form-control" type="password" placeholder="********" />
                 </label>
@@ -171,13 +172,13 @@ export default function Config(){
   }
 
   return (
-    <div className="container py-2">
+    <div className="container py-2 mt-4 page-config">
       <h2>Configuración</h2>
       <div className="row g-2">
         <div className="col-12 col-md-6">
-          <div className="card h-100">
+          <div className="card h-100 finance-compact">
             <div className="card-header">Parámetros financieros</div>
-            <div className="card-body" style={{ display:'grid', gap:8 }}>
+            <div className="card-body" style={{ display:'grid', gap:2 }}>
         <div className="form-check form-switch">
           <input className="form-check-input" type="checkbox" id="autoModeSwitch" checked={autoMode} onChange={e=>{
             const enabled = e.target.checked
@@ -255,7 +256,7 @@ export default function Config(){
         <div className="col-12 col-md-6">
           <div className="card h-100">
             <div className="card-header">Respaldo de Base de Datos</div>
-            <div className="card-body" style={{ display:'grid', gap:8 }}>
+            <div className="card-body" style={{ display:'grid', gap:4 }}>
           <label>Nombre de respaldo
             <input
               className="form-control"
@@ -306,7 +307,7 @@ export default function Config(){
         <div className="col-12">
           <div className="card">
             <div className="card-header">Importación/Exportación de datos</div>
-            <div className="card-body d-flex flex-wrap" style={{ gap:8 }}>
+            <div className="card-body d-flex flex-wrap" style={{ gap:6 }}>
               <button className="btn btn-outline-success" onClick={exportProducts}>Exportar productos</button>
               <label className="btn btn-outline-primary mb-0">
                 Importar productos
@@ -326,7 +327,7 @@ export default function Config(){
         <div className="col-12">
           <div className="card">
             <div className="card-header">Mantenimiento</div>
-            <div className="card-body" style={{ display:'grid', gap:8 }}>
+            <div className="card-body" style={{ display:'grid', gap:4 }}>
           <p className="text-muted" style={{ margin:0 }}>Esta acción limpia la base: borra clientes, destinos, productos, ventas, gastos y usuarios. No borra la configuración.</p>
           <button className="btn btn-danger" onClick={resetDb}>Resetear base de datos</button>
         </div>
@@ -337,7 +338,7 @@ export default function Config(){
         <div className="col-12 col-md-6">
           <div className="card h-100">
             <div className="card-header">Seguridad</div>
-            <div className="card-body" style={{ display:'grid', gap:8 }}>
+            <div className="card-body" style={{ display:'grid', gap:4 }}>
               <label>Contraseña de reset
                 <input
                   className="form-control"
